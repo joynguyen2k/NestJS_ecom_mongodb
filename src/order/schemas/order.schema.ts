@@ -1,31 +1,43 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Type } from 'class-transformer';
 import mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import { timestamp } from 'rxjs';
+import { Product } from 'src/product/schemas/product.schema';
+import { User } from 'src/users/schemas/user.schema';
+import { PaymentMethod } from '../enums/payment.enums';
 
 export type OrderDocument = Order & Document;
 
 @Schema()
 export class Order {
-    @Prop({ required: true})
-    OrderItemms:[{
-        product:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref:'Product',
-            required: true,
-        },
-        qty:{type:Number, required: true}
-    }]
+   
     @Prop()
-    paymentMethod: string;
+    orderItems:[
+        {
+            product: { type: mongoose.Schema.Types.ObjectId, ref:'products'}
+            qty:{type: Number}
+        }
+    ]
+    @Prop({required: true, type: Object})
+    shippingAddress:{
+        fullName: string ,
+        address: string ,
+        city: string ,
+        postalCode: string ,
+        country: string ,
+    }
     @Prop()
-    itemsPrice: number;
+    paymentMethod: PaymentMethod;
     @Prop()
-    shippingPrice: number;
-    @Prop()
-    taxPrice: number;
-    @Prop()
-    totalPrice: number;
+    totalItems: number;
+    @Prop({default: false})
+    isPaid: boolean;
+    @Prop({})
+    paidAt: Date;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+    user: User;
+
     @Prop({ type: timestamp })
     created_at: Date;
     @Prop({ type: timestamp })

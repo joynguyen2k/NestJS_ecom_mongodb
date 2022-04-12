@@ -1,14 +1,20 @@
 import { IsNotEmpty } from "class-validator";
+import mongoose from "mongoose";
+import { Product } from "src/product/schemas/product.schema";
+import { PaymentMethod } from "../enums/payment.enums";
 
 export class CreateOrderDto{
     @IsNotEmpty()
-    product_name: string;
-    image: string;
-    brand: string;
-    category: string;
-    description: string;
-    price: number;
-    countInStock: number;
-    rating: number;
-    numReviews: number;
+    orderItems:[
+        {
+            product_id: string
+            qty: number
+        }
+    ]
+    // @IsNotEmpty()
+    shippingAddress:{}
+    paymentMethod: PaymentMethod
+    totalItems: number
+    isPaid: boolean
+    paidAt: Date
 }
