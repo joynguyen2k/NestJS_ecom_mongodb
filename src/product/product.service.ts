@@ -30,7 +30,7 @@ export class ProductService {
         }
 
     }
-    async getProductById(id:string){
+    async getProductById(id:string): Promise<Product>{
         const product = this.productModel.findById({_id:id})
         if(!product) {
             throw new NotFoundException(`ID ${id} not found`);

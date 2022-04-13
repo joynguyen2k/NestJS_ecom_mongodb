@@ -9,7 +9,7 @@ export class OrderController {
     ){}
     @Post()
     async createOrder(@Body() createOrderDto: CreateOrderDto){
-        console.log('2', createOrderDto)
+        // console.log('2', createOrderDto)
         return await this.orderService.createOrder(createOrderDto)
     }
 }

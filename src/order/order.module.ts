@@ -9,7 +9,8 @@ import { ProductService } from 'src/product/product.service';
 @Module({
   imports:[
     MongooseModule.forFeature([{name: Order.name, schema: OrderSchema}]),
-    ProductModule
+    ProductModule,
+    
   ],
   providers: [OrderService],
   controllers: [OrderController]
