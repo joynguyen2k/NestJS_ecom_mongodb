@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 import { Document } from 'mongoose';
+import { Category } from 'src/category/schemas/category.schema';
 
 export type ProductDocument = Product & Document;
 
@@ -11,8 +13,8 @@ export class Product {
     image: string;
     @Prop({required: true})
     brand: string;
-    @Prop({required: true})
-    category: string;
+    // @Prop({required: true})
+    // category: string;
     @Prop({required: true})
     description: string;
     @Prop({required: true})
@@ -23,6 +25,8 @@ export class Product {
     rating: number;
     @Prop({required: true})
     numReviews: number;
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'categories', index: true })
+    category: Category;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

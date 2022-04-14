@@ -7,10 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { OrderItemsModule } from './order-items/order-items.module';
 import { OrderModule } from './order/order.module';
+import { CategoryModule } from './category/category.module';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/joyshop_ecom'), ProductModule, AuthModule, UsersModule, OrderModule],
+  imports: [MongooseModule.forRoot('mongodb://localhost/joyshop_ecom'), ProductModule, AuthModule, UsersModule, OrderModule, CategoryModule],
   controllers: [AppController],
   providers: [AppService],
 })
