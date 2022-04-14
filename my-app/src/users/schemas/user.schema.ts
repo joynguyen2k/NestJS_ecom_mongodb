@@ -14,11 +14,13 @@ export class User{
         // required: true,
         // unique: true,    
     })
-    username: string;
-    @Prop()
+    username:string;
+    @Prop() 
     password: string;
     @Prop()
     phone: string;
+    @Prop()
+    address:string
     @Prop({ type: timestamp })
     created_at: Date;
   

@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as moment from 'moment';
 import { SignInDto } from './dto/sign-in.dto';
 import { UserPayload } from '../auth/user-payload.interface';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -65,6 +66,18 @@ export class UsersService {
             return {accessToken};
         }else{
             throw new UnauthorizedException('Please check your login credentials')
+        }
+    }
+    async updateProfile(user: User, updateProfileDto: UpdateProfileDto){
+        const {username, password, phone, address }= updateProfileDto;
+        const profile= await this.model.findById({user});
+        if(profile){
+            profile.username= username;
+            profile.password= password;
+            profile.phone= phone;
+            profile.address= address;
+            return await profile.save()
+
         }
     }
 }
