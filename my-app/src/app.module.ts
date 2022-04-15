@@ -10,6 +10,7 @@ import { OrderModule } from './order/order.module';
 import { CategoryModule } from './category/category.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { UploadModule } from './upload/upload.module';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 
 
 @Module({
@@ -22,7 +23,11 @@ import { UploadModule } from './upload/upload.module';
     AuthModule, 
     UsersModule, 
     OrderModule, 
-    CategoryModule, UploadModule],
+    CategoryModule, 
+    UploadModule,
+    NestjsFormDataModule,
+
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

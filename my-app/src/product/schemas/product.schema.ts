@@ -25,7 +25,7 @@ export class Product {
     rating: number;
     @Prop({required: true})
     numReviews: number;
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'categories', index: true })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Category.name })
     category: Category;
 }
 

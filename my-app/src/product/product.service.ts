@@ -16,22 +16,38 @@ export class ProductService {
         }).save()
     }
     async getProduct(getProductByFilterDto: GetProductByFilterDto): Promise<Product[]>{
-        const {priceMin, priceMax, pageSize, page} = getProductByFilterDto;
+        const {priceMin, priceMax, pageSize, page, keyword, order, by} = getProductByFilterDto;
         const min = priceMin && Number(priceMin) !== 0 ? Number(priceMin) : 0;
         const max = priceMax&& Number(priceMax) !== 0 ? Number(priceMax) : 0;
-  
-        if((priceMin && priceMax) || pageSize || page){
+        const searchKeyword= `.*${keyword||''}.*`;
+        console.log('key', searchKeyword)
+
+        // if((priceMin && priceMax) || pageSize || page || keyword){
             // const priceFilter = min && max ? { price: { $gte: min, $lte: max } } : {};
-            const products = await this.productModel.find({price: { $gte: min, $lte: max }})
+            const products = await this.productModel.find({
+                $and:[
+                    {price: { $gte: min, $lte: max }},
+                    {product_name: {$regex:searchKeyword, $options:'i'} },
+                    {category_name: {$regex:searchKeyword, $options:'i'} }
+
+
+                ]
+            }
+         
+                                                        )
+                                                .populate('category', 'category_name')
                                                 .skip(pageSize * (page - 1))
-                                                .limit(pageSize);
+                                                .limit(pageSize)
+                                                .sort([
+                                                    [by?by:'price', order && order.toLocaleLowerCase()==='desc'?-1:1]
+                                                ])
             
             return products
 
-        }else{
-            const products = this.productModel.find({})
-            return products;
-        }
+        // }else{
+            // const products = this.productModel.find({})
+            // return products;
+        // }
 
     }
     async getProductById(id:string): Promise<Product>{

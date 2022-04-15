@@ -61,10 +61,11 @@ export class UsersService {
         const user = await this.model.findOne({username: username});
         
         if(user && (await bcrypt.compare( password,user.password))){
-            const payload: UserPayload = {id: user.id};
+            const payload: UserPayload = {username: user.username};
             const accessToken = await this.jwtService.sign(payload);
             return {accessToken};
         }else{
+
             throw new UnauthorizedException('Please check your login credentials')
         }
     }
